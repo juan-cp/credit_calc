@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Cálculo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        .wrapper {
+            display: flex;
+        }
+
+        .container {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .resultado-container {
+            flex: 1;
+        }
+
+        .resultado-container label {
+            margin-right: 5px;
+        }
+
+        .resultado-container span {
+            font-weight: bold;
+        }
+
+        .custom-input {
+            width: 300px;
+        }
+    </style>
+    <script>
+        function calcular(event) {
+            event.preventDefault();
+
+            var valorUF = parseFloat(document.getElementById('valorUF').value);
+            var valorPropiedad = parseFloat(document.getElementById('valorPropiedad').value);
+            var tasaCredito = parseFloat(document.getElementById('tasaCredito').value);
+            var plazo = parseFloat(document.getElementById('plazo').value);
+            var pie = parseFloat(document.getElementById('pie').value);
+
+            var tasa_mensual = (1 + tasaCredito / 100) ** (1 / 12) - 1;
+            var resultado = valorUF * (1 - pie / 100) * valorPropiedad * tasa_mensual / (1 - (1 + tasa_mensual) ** (-plazo * 12));
+
+            var valor_financiado = valorUF * (1-pie/100) * valorPropiedad
+            var deuda = resultado * plazo * 12
+            var intereses = deuda - valor_financiado
+            var ratio_deuda = deuda / valor_financiado
+
+            document.getElementById('resultado-label').textContent = 'Dividendo (mensual):';
+            document.getElementById('resultado').textContent = Math.round(resultado);
+            document.getElementById('valor-fin-label').textContent = 'Valor Financiado:';
+            document.getElementById('valor-fin').textContent = Math.round(valor_financiado);
+            document.getElementById('deuda-label').textContent = 'Deuda:';
+            document.getElementById('deuda').textContent = Math.round(deuda);
+            document.getElementById('intereses-label').textContent = 'Intereses:';
+            document.getElementById('intereses').textContent = Math.round(intereses);
+            document.getElementById('ratio-deuda-label').textContent = 'Ratio Deuda:';
+            document.getElementById('ratio_deuda').textContent = ratio_deuda;
+        }
+    </script>
+</head>
+<body>
+   
+    <form>
+        <div class="wrapper">
+            <div class="container">
+                 <pre> 
+  __________
+ ///////////\
+///////////  \
+|    _    |  |
+|[] | | []|[]|
+|   | |   |  |  
+    </pre>
+    <h4 class="title is-4">CALCULADORA HIPOTECARIA</h4>
+
+            </div>
+            <div class="container">
+                <label for="valorUF">Valor UF:</label><br>
+                <input class="input is-primary custom-input" type="text" id="valorUF" name="valorUF"><br>
+
+                <label for="valorPropiedad">Valor propiedad (UF):</label><br>
+                <input class="input is-primary custom-input" type="text" id="valorPropiedad" name="valorPropiedad"><br>
+
+                <label for="tasaCredito">Tasa crédito (Anual):</label><br>
+                <input class="input is-primary custom-input" type="text" id="tasaCredito" name="tasaCredito"><br>
+
+                <label for="plazo">Plazo (Años):</label><br>
+                <input class="input is-primary custom-input" type="text" id="plazo" name="plazo"><br>
+
+                <label for="pie">Pie (%):</label><br>
+                <input class="input is-primary custom-input" type="text" id="pie" name="pie"><br><br>
+                <button class="button is-primary" onclick="calcular(event)">Calcular</button>
+            </div>
+            <div class="resultado-container">
+                <label id="resultado-label"></label>
+                <span id="resultado"></span><br>
+                <label id="valor-fin-label"></label>
+                <span id="valor-fin"></span><br>
+                <label id="deuda-label"></label>
+                <span id="deuda"></span><br>
+                <label id="intereses-label"></label>
+                <span id="intereses"></span><br>
+                <label id="ratio-deuda-label"></label>
+                <span id="ratio_deuda"></span><br>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
